@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <!-- GitHub Markdown CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.1.0/github-markdown.min.css">
+    <!-- AOS Library for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         :root {
             --primary-color: #4e73df;
@@ -32,83 +32,79 @@
             background: linear-gradient(120deg, var(--primary-color), #6c8ef5);
             color: white;
             padding: 3rem 0;
-            margin-bottom: 2rem;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            border-bottom: 5px solid var(--secondary-color);
         }
         
         .header h1 {
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            font-size: 2.8rem;
+            font-size: 3rem;
             margin-bottom: 0.5rem;
         }
         
         .header p {
             font-size: 1.2rem;
             opacity: 0.9;
-            max-width: 800px;
-            margin: 0 auto;
         }
         
-        .container-main {
-            max-width: 900px;
+        .content-container {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            margin-bottom: 3rem;
-        }
-        
-        .markdown-body {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 2.5rem;
-            font-family: 'Open Sans', sans-serif;
-            font-size: 16px;
+            margin-bottom: 2rem;
         }
         
-        .markdown-body h1, 
-        .markdown-body h2, 
-        .markdown-body h3, 
-        .markdown-body h4 {
+        h1, h2, h3, h4, h5 {
             font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
             color: var(--primary-color);
-            border-bottom: 1px solid #eaecef;
-            padding-bottom: 0.3em;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
         
-        .markdown-body h1 {
-            font-size: 2em;
-            margin-top: 0;
+        h2 {
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
         
-        .markdown-body img {
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin: 1.5rem 0;
-            max-width: 100%;
+        .feature-card {
+            background: linear-gradient(to bottom right, #f8fafc, #f1f5f9);
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid var(--primary-color);
         }
         
-        .contact-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 2rem 0;
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
         
         .contact-btn {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
             padding: 12px 25px;
             border-radius: 50px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .contact-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
         }
         
         .btn-whatsapp {
@@ -116,95 +112,118 @@
             color: white;
         }
         
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+            color: white;
+        }
+        
         .btn-phone {
-            background: linear-gradient(120deg, #007bff, #0056b3);
+            background: linear-gradient(120deg, var(--primary-color), #6c8ef5);
+            color: white;
+        }
+        
+        .btn-phone:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(78, 115, 223, 0.3);
             color: white;
         }
         
         .btn-email {
-            background: linear-gradient(120deg, #ff6b6b, #c53030);
+            background: linear-gradient(120deg, #EA4335, #D14836);
+            color: white;
+        }
+        
+        .btn-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(234, 67, 53, 0.3);
             color: white;
         }
         
         .btn-portfolio {
-            background: linear-gradient(120deg, var(--secondary-color), #0fa37c);
+            background: linear-gradient(120deg, var(--secondary-color), #17a673);
+            color: white;
+        }
+        
+        .btn-portfolio:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(28, 200, 138, 0.3);
             color: white;
         }
         
         .btn-live {
-            background: linear-gradient(120deg, #6c8ef5, var(--primary-color));
+            background: linear-gradient(120deg, #FF6B6B, #FF8E8E);
             color: white;
         }
         
-        .contact-btn:hover {
+        .btn-live:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3);
             color: white;
-            text-decoration: none;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin: 2rem 0;
-        }
-        
-        .feature-card {
-            background: linear-gradient(135deg, #f8f9fc 0%, #eef2f7 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            border-left: 4px solid var(--primary-color);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .feature-card h4 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--primary-color);
-            margin-top: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 2rem 0;
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-        
-        .tech-badges {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 1.5rem 0;
         }
         
         .tech-badge {
-            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+            display: inline-block;
+            background: linear-gradient(to right, #edf2f7, #e2e8f0);
+            color: var(--dark-color);
             padding: 5px 15px;
-            border-radius: 50px;
-            font-size: 0.85rem;
+            border-radius: 20px;
+            margin: 0.3rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            color: #495057;
+            border: 1px solid #cbd5e0;
         }
         
         .screenshot {
-            text-align: center;
-            margin: 2rem 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
         }
         
-        .screenshot img {
-            max-width: 100%;
+        .screenshot:hover {
+            transform: scale(1.02);
+        }
+        
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, rgba(78, 115, 223, 0.1), rgba(28, 200, 138, 0.1));
+            padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        code {
+            background: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            color: var(--primary-color);
+        }
+        
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
         }
         
         @media (max-width: 768px) {
@@ -212,13 +231,12 @@
                 font-size: 2.2rem;
             }
             
-            .contact-buttons {
-                flex-direction: column;
-                align-items: center;
+            .header p {
+                font-size: 1rem;
             }
             
-            .contact-btn {
-                width: 80%;
+            .content-container {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -227,182 +245,210 @@
     <!-- Header Section -->
     <header class="header text-center">
         <div class="container">
-            <h1><i class="fas fa-robot me-2"></i> AfyaSmart Health Assistant</h1>
+            <div class="logo">AfyaSmart</div>
+            <h1>AfyaSmart Health Assistant</h1>
             <p>An intelligent health assistant that provides symptom analysis, health recommendations, and medication guidance</p>
-            
-            <div class="contact-buttons">
-                <a href="https://wa.me/254703917940" class="contact-btn btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-                <a href="tel:+254102273123" class="contact-btn btn-phone">
-                    <i class="fas fa-phone"></i> Call Now
-                </a>
-                <a href="mailto:remotaskfreelancer@gmail.com" class="contact-btn btn-email">
-                    <i class="fas fa-envelope"></i> Email
-                </a>
-                <a href="https://github.com/brianmbakadev" class="contact-btn btn-portfolio" target="_blank">
-                    <i class="fas fa-user"></i> Portfolio
-                </a>
-                <a href="https://afyasmartdoc.com" class="contact-btn btn-live" target="_blank">
-                    <i class="fas fa-external-link-alt"></i> Live Demo
-                </a>
-            </div>
+            <p>Developed by <strong>Brian Mbaka</strong></p>
         </div>
     </header>
 
     <!-- Main Content -->
-    <div class="container container-main">
-        <article class="markdown-body">
-            <h1>AfyaSmart Health Assistant</h1>
+    <div class="container">
+        <!-- Introduction -->
+        <div class="content-container" data-aos="fade-up">
+            <h2>Overview</h2>
+            <p>AfyaSmart is an advanced health assistant designed to provide users with immediate health guidance based on their described symptoms. The application offers potential diagnoses, actionable recommendations, and medication information in an easy-to-understand format.</p>
             
-            <p>AfyaSmart is an intelligent health assistant designed to provide users with preliminary health assessments based on their symptoms. It offers possible health issues, actionable recommendations, and medication guidance in a user-friendly interface.</p>
-            
-            <div class="screenshot">
-                <img src="https://via.placeholder.com/800x450?text=AfyaSmart+Screenshot" alt="AfyaSmart Health Assistant Interface">
-                <p><em>AfyaSmart Health Assistant Interface</em></p>
+            <div class="highlight">
+                <p>AfyaSmart is built with a focus on user experience and medical accuracy, providing valuable health information while always reminding users to consult healthcare professionals for serious conditions.</p>
             </div>
-            
-            <h2>Features</h2>
-            
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h4><i class="fas fa-diagnoses"></i> Symptom Analysis</h4>
-                    <p>Input your symptoms and receive a detailed analysis of possible health conditions with explanations.</p>
+        </div>
+
+        <!-- Features -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="100">
+            <h2>Key Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-diagnoses"></i>
+                        </div>
+                        <h4>Symptom Analysis</h4>
+                        <p>Provides potential health issues based on user-described symptoms with 4 possible conditions.</p>
+                    </div>
                 </div>
-                
-                <div class="feature-card">
-                    <h4><i class="fas fa-tasks"></i> Actionable Recommendations</h4>
-                    <p>Get practical advice on what to do to alleviate symptoms and when to seek professional medical help.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h4>Actionable Recommendations</h4>
+                        <p>Offers clear, point-form advice on what users should do to alleviate their symptoms.</p>
+                    </div>
                 </div>
-                
-                <div class="feature-card">
-                    <h4><i class="fas fa-capsules"></i> Medication Guidance</h4>
-                    <p>Receive information about potential medications, including dosage recommendations and precautions.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-capsules"></i>
+                        </div>
+                        <h4>Medication Guidance</h4>
+                        <p>Provides information about potential medications, including dosage and usage instructions.</p>
+                    </div>
                 </div>
-                
-                <div class="feature-card">
-                    <h4><i class="fas fa-user-md"></i> Health Professional Connection</h4>
-                    <p>Easy access to connect with healthcare professionals for further consultation when needed.</p>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h4>Warning System</h4>
+                        <p>Alerts users when they should seek immediate medical attention based on their symptoms.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <h4>User-Friendly Interface</h4>
+                        <p>Clean, modern design with intuitive navigation and responsive layout for all devices.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comment-medical"></i>
+                        </div>
+                        <h4>Interactive Chat</h4>
+                        <p>Engaging chat interface with typing indicators and quick suggestion buttons.</p>
+                    </div>
                 </div>
             </div>
-            
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="200">
             <h2>Technology Stack</h2>
+            <p>AfyaSmart is built with modern web technologies to ensure performance, security, and scalability:</p>
             
-            <div class="tech-badges">
+            <div class="text-center my-4">
                 <span class="tech-badge">HTML5</span>
                 <span class="tech-badge">CSS3</span>
                 <span class="tech-badge">JavaScript</span>
                 <span class="tech-badge">Bootstrap 5</span>
                 <span class="tech-badge">Font Awesome</span>
                 <span class="tech-badge">Google Fonts</span>
-                <span class="tech-badge">GitHub Pages</span>
+                <span class="tech-badge">AOS Animations</span>
             </div>
             
+            <p>The application features a responsive design that works seamlessly on desktop, tablet, and mobile devices.</p>
+        </div>
+
+        <!-- Installation -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="300">
             <h2>Installation</h2>
-            
             <p>To run AfyaSmart locally, follow these steps:</p>
             
-            <ol>
-                <li>Clone the repository:
-                    <pre><code>git clone https://github.com/brianmbakadev/afyasmart.git</code></pre>
-                </li>
-                <li>Navigate to the project directory:
-                    <pre><code>cd afyasmart</code></pre>
-                </li>
-                <li>Open <code>index.html</code> in your web browser:
-                    <pre><code>open index.html</code></pre>
-                </li>
-            </ol>
+            <pre><code># Clone the repository
+git clone https://github.com/brianmbakadev/afyasmart.git
+
+# Navigate to the project directory
+cd afyasmart
+
+# Open index.html in your browser
+# Alternatively, use a local server for better performance
+python -m http.server 8000</code></pre>
             
+            <p>Then open your browser and navigate to <code>http://localhost:8000</code> to view the application.</p>
+        </div>
+
+        <!-- Usage -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="400">
             <h2>Usage</h2>
-            
             <p>Using AfyaSmart is simple and intuitive:</p>
-            
             <ol>
-                <li>Open the application in your web browser</li>
-                <li>Enter your name for a personalized experience</li>
+                <li>Enter your name when prompted for a personalized experience</li>
                 <li>Describe your symptoms in the chat interface</li>
-                <li>Receive a detailed health assessment with possible conditions</li>
-                <li>Follow the recommended actions and medication guidance</li>
-                <li>Contact a healthcare professional if symptoms persist or worsen</li>
+                <li>Receive a comprehensive health assessment with possible conditions</li>
+                <li>Review the recommended actions and medication guidance</li>
+                <li>Follow the advice or seek professional medical help if warnings appear</li>
             </ol>
             
-            <h2>Project Structure</h2>
-            
-            <pre><code>afyasmart/
-├── index.html          # Main HTML file
-├── style.css           # Additional styles (if needed)
-├── script.js           # JavaScript functionality (if needed)
-├── assets/             # Directory for images and other assets
-│   ├── images/         # Screenshots and logos
-│   └── icons/          # Application icons
-└── README.md           # Project documentation</code></pre>
-            
-            <h2>Contributing</h2>
-            
-            <p>Contributions are welcome! If you'd like to contribute to AfyaSmart, please follow these steps:</p>
-            
-            <ol>
-                <li>Fork the repository</li>
-                <li>Create a new branch for your feature or bug fix</li>
-                <li>Make your changes and test thoroughly</li>
-                <li>Submit a pull request with a detailed description of your changes</li>
-            </ol>
-            
-            <h2>Contact the Developer</h2>
-            
-            <p>AfyaSmart was developed by <strong>Brian Mbaka</strong>, a passionate software developer specializing in creating user-friendly applications.</p>
-            
-            <div class="contact-buttons">
-                <a href="https://wa.me/254703917940" class="contact-btn btn-whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp: +254703917940
-                </a>
-                <a href="tel:+254102273123" class="contact-btn btn-phone">
-                    <i class="fas fa-phone"></i> Call: +254102273123
-                </a>
-                <a href="mailto:remotaskfreelancer@gmail.com" class="contact-btn btn-email">
-                    <i class="fas fa-envelope"></i> Email: remotaskfreelancer@gmail.com
-                </a>
+            <div class="highlight">
+                <p><strong>Note:</strong> AfyaSmart is designed for informational purposes only and does not replace professional medical advice. Always consult a healthcare provider for accurate diagnosis and treatment.</p>
             </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="content-container text-center" data-aos="fade-up" data-aos-delay="500">
+            <h2>Contact the Developer</h2>
+            <p>Feel free to reach out for questions, collaborations, or feedback</p>
             
-            <p>Check out my portfolio and other projects:</p>
-            
-            <div class="contact-buttons">
-                <a href="https://github.com/brianmbakadev" class="contact-btn btn-portfolio" target="_blank">
-                    <i class="fab fa-github"></i> GitHub Portfolio
+            <div class="d-flex flex-wrap justify-content-center mt-4">
+                <a href="https://wa.me/254703917940" class="contact-btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
                 </a>
-                <a href="https://afyasmartdoc.com" class="contact-btn btn-live" target="_blank">
+                
+                <a href="tel:+254102273123" class="contact-btn btn-phone">
+                    <i class="fas fa-phone"></i> Call
+                </a>
+                
+                <a href="mailto:remotaskfreelancer@gmail.com" class="contact-btn btn-email">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+                
+                <a href="https://github.com/brianmbakadev" class="contact-btn btn-portfolio">
+                    <i class="fab fa-github"></i> Portfolio
+                </a>
+                
+                <a href="https://afyasmartdoc.com" class="contact-btn btn-live">
                     <i class="fas fa-external-link-alt"></i> Live Demo
                 </a>
             </div>
-            
-            <h2>License</h2>
-            
-            <p>This project is licensed under the MIT License - see the <a href="#">LICENSE</a> file for details.</p>
-            
-            <h2>Acknowledgments</h2>
-            
-            <ul>
-                <li>Bootstrap for the responsive layout components</li>
-                <li>Font Awesome for the beautiful icons</li>
-                <li>Google Fonts for the typography</li>
-                <li>All contributors who have helped improve AfyaSmart</li>
-            </ul>
-            
-            <div class="alert alert-primary mt-4" role="alert">
-                <i class="fas fa-info-circle me-2"></i> <strong>Disclaimer:</strong> AfyaSmart is not a substitute for professional medical advice. Always consult a healthcare professional for proper diagnosis and treatment of health conditions.
+        </div>
+
+        <!-- Screenshots -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="600">
+            <h2>Screenshots</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="screenshot">
+                        <img src="https://via.placeholder.com/600x400/4e73df/ffffff?text=AfyaSmart+Chat+Interface" class="img-fluid" alt="AfyaSmart Chat Interface">
+                    </div>
+                    <p class="text-center"><strong>Chat Interface</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <div class="screenshot">
+                        <img src="https://via.placeholder.com/600x400/1cc88a/ffffff?text=Health+Assessment" class="img-fluid" alt="Health Assessment">
+                    </div>
+                    <p class="text-center"><strong>Health Assessment</strong></p>
+                </div>
             </div>
-        </article>
+        </div>
+
+        <!-- License -->
+        <div class="content-container" data-aos="fade-up" data-aos-delay="700">
+            <h2>License</h2>
+            <p>This project is licensed under the MIT License - see the <a href="#">LICENSE.md</a> file for details.</p>
+        </div>
     </div>
-    
-    <footer class="footer">
+
+    <!-- Footer -->
+    <footer class="footer text-center">
         <div class="container">
-            <p>Developed with <i class="fas fa-heart text-danger"></i> by Brian Mbaka</p>
+            <p>Developed with <i class="fas fa-heart" style="color: #ff6b6b;"></i> by Brian Mbaka</p>
             <p>© 2023 AfyaSmart Health Assistant. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS animation library
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+    </script>
 </body>
 </html>
