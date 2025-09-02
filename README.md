@@ -8,9 +8,6 @@
 
 **Intelligent health assistant with AI-powered symptom analysis**  
 
-![WhatsApp](https://img.shields.io/badge/💬%20Chat%20on%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)  
-![Demo](https://img.shields.io/badge/🚀%20Live%20Demo-orange?style=for-the-badge&logo=google-chrome&logoColor=white)  
-
 </div>
 
 ---
