@@ -37,15 +37,4 @@ Database:   MySQL
 ⚠️ Medical Disclaimer: AfyaSmart provides informational guidance only.
 Always consult healthcare professionals for medical advice.
 
-📞 Contact & Support
-<div align="center">
 
- 
-
- 
-
- 
-
- 
-
-</div> ```
