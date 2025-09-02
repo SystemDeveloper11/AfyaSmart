@@ -18,14 +18,34 @@
 - 💾 **Data Persistence** – MySQL database integration  
 - 💡 **Smart Recommendations** – Personalized health advice  
 - 💊 **Medication Guidance** – Dosage and usage information  
-- 📱 **WhatsApp Integration** – Direct health consultations  
+
 
 ---
 
 ## 🛠️ Tech Stack  
 
 ```bash
-Frontend:   HTML5, CSS3, JavaScript, Bootstrap 5
+Frontend:   HTML5, CSS3, JavaScript
 Backend:    Python, Flask / Django
 Database:   MySQL
-Integration: WhatsApp API
+
+👨‍💻 Developer: Brian Mbaka
+🎓 Student at Power Learn Project Africa (PLP) – Software Development & Machine Learning
+🎓 Also pursuing Information Technology at Kisii
+💡 Passionate about AI-powered solutions & digital health innovations
+
+⚠️ Medical Disclaimer: AfyaSmart provides informational guidance only.
+Always consult healthcare professionals for medical advice.
+
+📞 Contact & Support
+<div align="center">
+
+ 
+
+ 
+
+ 
+
+ 
+
+</div> ```
