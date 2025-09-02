@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfyaSmart - Your AI Health Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #1cc88a;
+            --dark-color: #5a5c69;
+            --light-color: #f8f9fc;
+        }
+        
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #224abe 100%);
+            color: white;
+            padding: 5rem 0;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5bc7;
+            border-color: #3a5bc7;
+        }
+        
+        .btn-success {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+        
+        .logo {
+            max-height: 80px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .welcome-back {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .feature-section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            font-weight: 700;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary-color);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        /* Custom hover effects */
+        .hover-grow:hover {
+          transform: translateY(-3px) scale(1.03);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+        .hover-ripple {
+          transition: all 0.6s ease;
+          transform: scale(0);
+        }
+        .btn:hover .hover-ripple {
+          opacity: 0.1;
+          transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <img src="../src/afyasmart_logo.png" alt="AfyaSmart" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register">AI Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="symptom-checker.html">Symptom Checker</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="nearby.html">Nearby Hospitals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section text-center">
+        <div class="container">
+            <img src="../src/afyasmart_logo.png" alt="AfyaSmart Logo" class="logo">
+            <h1 class="display-4 fw-bold mb-3">Your Personal Health Assistant</h1>
+            <p class="lead mb-4">Get reliable health information, find nearby hospitals, and track symptoms with our AI-powered platform.</p>
+            
+            <div class="d-flex flex-wrap gap-3 justify-content-center py-3">
+              <div class="position-relative" style="z-index: 1;">
+                <button 
+                  class="btn btn-primary btn-lg px-4 rounded-pill shadow-sm hover-grow"
+                  data-bs-toggle="modal" 
+                  data-bs-target="#patientDetailsModal"
+                  onclick="window.location.href='register.html'"
+                  style="
+                    background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+                    border: none;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                  "
+                  onmouseover="this.querySelector('i').classList.add('fa-bounce')"
+                  onmouseout="this.querySelector('i').classList.remove('fa-bounce')">
+                  <i class="fas fa-comment-medical me-2"></i>Start Chatting
+                </button>
+                <span class="position-absolute top-0 start-0 w-100 h-100 bg-white opacity-0 hover-ripple rounded-pill"></span>
+              </div>
+
+              <div class="position-relative" style="z-index: 1;">
+                <a 
+                  href="symptom-checker.html" 
+                  class="btn btn-outline-primary btn-lg px-4 rounded-pill hover-grow"
+                  style="
+                     background: linear-gradient(135deg, white 0%, #00d2ff 100%);
+                    border: none;
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                  "
+                  onmouseover="this.querySelector('i').classList.add('fa-shake')"
+                  onmouseout="this.querySelector('i').classList.remove('fa-shake')">
+                  <i class="fas fa-notes-medical me-2"></i>Symptom Checker
+                </a>
+                <span class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-0 hover-ripple rounded-pill"></span>
+              </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-section">
+        <div class="container">
+            <h2 class="text-center section-title">Explore Our Features</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h4 class="card-title">AI Health Chat</h4>
+                            <p class="card-text">Ask any health-related question and get instant, reliable answers from our AI assistant.</p>
+                            <a href="chat.html" class="btn btn-outline-primary">Try It Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-notes-medical"></i>
+                            </div>
+                            <h4 class="card-title">Symptom Checker</h4>
+                            <p class="card-text">Enter your symptoms and get general advice on possible conditions and next steps.</p>
+                            <a href="symptom-checker.php" class="btn btn-outline-primary">Check Symptoms</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h4 class="card-title">Nearby Hospitals</h4>
+                            <p class="card-text">Find the nearest medical facilities with contact information and directions.</p>
+                            <a href="nearby.php" class="btn btn-outline-primary">Find Hospitals</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5 bg-white">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Why Choose AfyaSmart?</h2>
+                    <ul class="list-unstyled">
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>24/7 Access</strong> to health information</li>
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Privacy-focused</strong> - your data stays secure</li>
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Reliable sources</strong> for all health information</li>
+                        <li class="mb-3"><i class="fas fa-check-circle text-success me-2"></i> <strong>Easy to use</strong> interface for all ages</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1505751172876-fa1923c5c528?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Healthcare" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>About AfyaSmart</h5>
+                    <p>Your AI-powered health assistant providing reliable information and connecting you to healthcare resources.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="register.html" class="text-white">AI Chat</a></li>
+                        <li><a href="symptom-checker.html" class="text-white">Symptom Checker</a></li>
+                        <li><a href="nearby.html" class="text-white">Nearby Hospitals</a></li>
+                        <li><a href="contact.html" class="text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect With Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-secondary">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2024 AfyaSmart. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

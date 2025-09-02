@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AfyaSmart - Advanced Health Assistant</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #1cc88a;
+            --accent-color: #ff6b6b;
+            --dark-color: #2d3748;
+            --light-color: #f8f9fc;
+            --ai-bubble: #f0f7ff;
+            --user-bubble: #e3f2fd;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        
+        .chat-header {
+            background: linear-gradient(120deg, var(--primary-color), #6c8ef5);
+            color: white;
+            padding: 1.2rem 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .chat-header .chat-title {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .chat-header .btn-group .btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-header .btn-group .btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: rotate(15deg);
+        }
+        
+        .chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 1.8rem;
+            background-color: #fafcff;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message-bubble {
+            padding: 15px 20px;
+            border-radius: 20px;
+            max-width: 80%;
+            word-wrap: break-word;
+            line-height: 1.5;
+            animation: fadeIn 0.5s ease-in-out;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .message-bubble.user-message {
+            background: linear-gradient(120deg, var(--user-bubble), #d9e7ff);
+            color: var(--dark-color);
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+        
+        .message-bubble.bot-message {
+            background: linear-gradient(120deg, var(--ai-bubble), #e6f0ff);
+            color: var(--dark-color);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .message-header {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .message-footer {
+            font-size: 0.75rem;
+            text-align: right;
+            margin-top: 8px;
+            color: #718096;
+        }
+        
+        .health-assessment {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .health-section {
+            margin-bottom: 20px;
+        }
+        
+        .health-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .health-section h6 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+        }
+        
+        .health-section ul {
+            margin-bottom: 5px;
+            padding-left: 20px;
+        }
+        
+        .health-section li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        
+        .health-section li:before {
+            content: "•";
+            color: var(--secondary-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .medication-card {
+            background: linear-gradient(to right, #f8f9ff, #f0f5ff);
+            border-left: 4px solid var(--primary-color);
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .medication-name {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .medication-details {
+            font-size: 0.85rem;
+            color: #4a5568;
+            margin-top: 5px;
+        }
+        
+        .warning-note {
+            background-color: #fff5f5;
+            border-left: 4px solid #fc8181;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 0.85rem;
+            color: #c53030;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .chat-input-area {
+            background-color: #fff;
+            padding: 1.2rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .chat-input {
+            border-radius: 25px !important;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .chat-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.15);
+            border-color: var(--primary-color);
+        }
+        
+        #send-button {
+            border-radius: 50% !important;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(120deg, var(--primary-color), #6c8ef5);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        
+        #send-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.3);
+        }
+        
+        .btn-suggestion {
+            background: linear-gradient(to right, #edf2f7, #e2e8f0);
+            border: none;
+            color: var(--dark-color);
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn-suggestion:hover {
+            background: linear-gradient(to right, var(--primary-color), #6c8ef5);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 115, 223, 0.2);
+        }
+        
+        .suggestions-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 1.2rem;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .loading-indicator {
+            display: flex;
+            align-items: center;
+            height: 50px;
+        }
+        
+        .typing-animation {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .typing-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            margin: 0 3px;
+            animation: typingAnimation 1.4s infinite ease-in-out both;
+        }
+        
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typingAnimation {
+            0%, 80%, 100% { 
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .user-indicator {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            text-align: right;
+            margin-bottom: 5px;
+            padding-right: 15px;
+            font-weight: 500;
+        }
+        
+        .disclaimer {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 10px;
+            color: #718096;
+            background-color: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Scrollbar styling */
+        .chat-history::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .chat-history::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .chat-history::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        .chat-history::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-robot"></i>
+                <h1 class="chat-title">AfyaSmart Health Assistant</h1>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#confirmClearModal">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button type="button" class="btn" id="user-profile-btn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </header>
+    
+        <!-- Chat History -->
+        <div id="chat-history" class="chat-history">
+            <div class="message-bubble bot-message">
+                <div class="message-header"><i class="fas fa-robot"></i> AfyaSmart</div>
+                <span class="bubble-text">Hello! I'm AfyaSmart, your advanced health assistant. Tell me how you're feeling, and I'll provide a health assessment, recommendations, and medication information.</span>
+                <div class="message-footer" id="message-time">Just now</div>
+            </div>
+        </div>
+    
+        <!-- Suggestions -->
+        <div id="suggestions-container" class="suggestions-container">
+            <button class="btn btn-suggestion">I have a headache and fever</button>
+            <button class="btn btn-suggestion">Cough and chest congestion</button>
+            <button class="btn btn-suggestion">Stomach pain and nausea</button>
+            <button class="btn btn-suggestion">Fatigue and body aches</button>
+        </div>
+    
+        <!-- User Input -->
+        <div class="chat-input-area">
+            <form id="chat-form" class="input-group">
+                <input type="text" id="user-input" class="form-control chat-input" placeholder="Describe how you're feeling..." autocomplete="off" required>
+                <button class="btn btn-primary" type="submit" id="send-button">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+        
+        <div class="disclaimer">
+            Disclaimer: This is a simulated health assistant. Always consult a healthcare professional for medical advice.
+        </div>
+    </div>
+    
+    <!-- Confirm Clear Modal -->
+    <div class="modal fade" id="confirmClearModal" tabindex="-1" aria-labelledby="confirmClearModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmClearModalLabel">Confirm Clear Chat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to clear the chat history?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-clear-button">Clear Chat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- User Info Modal -->
+    <div class="modal fade" id="userInfoModal" tabindex="-1" aria-labelledby="userInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userInfoModalLabel">Welcome to AfyaSmart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="user-name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="user-name" placeholder="Enter your name">
+                    </div>
+                    <div class="form-text">Please enter your name to personalize your experience.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="save-user-info">Save Information</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatHistory = document.getElementById('chat-history');
+        const suggestionsContainer = document.getElementById('suggestions-container');
+        
+        // Show user info modal on page load if no username is saved
+        const savedUserName = localStorage.getItem('userName');
+        if (!savedUserName) {
+            const userInfoModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+            userInfoModal.show();
+        }
+        
+        // Get current time for message footer
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        // Function to create and append a new message bubble
+        function appendMessage(text, sender, userName = null) {
+            const bubble = document.createElement('div');
+            bubble.classList.add('message-bubble', `${sender}-message`);
+            
+            if (sender === 'bot') {
+                bubble.innerHTML = `
+                    <div class="message-header"><i class="fas fa-robot"></i> AfyaSmart</div>
+                    <span class="bubble-text">${text}</span>
+                    <div class="message-footer">${getCurrentTime()}</div>
+                `;
+            } else {
+                if (userName) {
+                    const userIndicator = document.createElement('div');
+                    userIndicator.classList.add('user-indicator');
+                    userIndicator.textContent = userName;
+                    chatHistory.appendChild(userIndicator);
+                }
+                
+                bubble.innerHTML = `
+                    <span class="bubble-text">${text}</span>
+                    <div class="message-footer">${getCurrentTime()}</div>
+                `;
+            }
+            
+            chatHistory.appendChild(bubble);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+        
+        // Generate health assessment based on symptoms
+        function generateHealthAssessment(symptoms) {
+            const symptomsLower = symptoms.toLowerCase();
+            
+            // Headache and fever
+            if (symptomsLower.includes('headache') && symptomsLower.includes('fever')) {
+                return `
+                    <div class="health-assessment">
+                        <div class="health-section">
+                            <h6><i class="fas fa-diagnoses"></i> Possible Health Issues</h6>
+                            <ul>
+                                <li>Viral infection like influenza or common cold</li>
+                                <li>Sinus infection or sinusitis</li>
+                                <li>Migraine or tension headache with accompanying fever</li>
+                                <li>Possible early sign of COVID-19 infection</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-tasks"></i> Recommended Actions</h6>
+                            <ul>
+                                <li>Rest in a quiet, dark room to reduce headache discomfort</li>
+                                <li>Stay hydrated with water, herbal tea, or electrolyte solutions</li>
+                                <li>Use a cool compress on your forehead to reduce fever</li>
+                                <li>Monitor your temperature every 4-6 hours</li>
+                                <li>Consider taking a COVID-19 test if you've been exposed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-capsules"></i> Medication Guidance</h6>
+                            <div class="medication-card">
+                                <div class="medication-name">Paracetamol (Acetaminophen)</div>
+                                <div class="medication-details">Dosage: 500-1000mg every 4-6 hours as needed. Maximum 4000mg per day. Helps reduce both fever and headache pain.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Ibuprofen</div>
+                                <div class="medication-details">Dosage: 200-400mg every 6-8 hours with food. Reduces inflammation, fever, and pain. Avoid if you have stomach issues.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-note">
+                            <i class="fas fa-exclamation-triangle"></i> Seek immediate medical attention if your fever exceeds 103°F (39.4°C), if you experience a stiff neck, confusion, or severe headache, or if symptoms persist beyond 3 days.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Cough and chest congestion
+            else if ((symptomsLower.includes('cough') || symptomsLower.includes('chest')) && 
+                    (symptomsLower.includes('congestion') || symptomsLower.includes('phlegm'))) {
+                return `
+                    <div class="health-assessment">
+                        <div class="health-section">
+                            <h6><i class="fas fa-diagnoses"></i> Possible Health Issues</h6>
+                            <ul>
+                                <li>Bronchitis or chest infection</li>
+                                <li>Pneumonia (if accompanied by fever and difficulty breathing)</li>
+                                <li>Post-nasal drip from sinus issues</li>
+                                <li>Asthma exacerbation or reactive airway disease</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-tasks"></i> Recommended Actions</h6>
+                            <ul>
+                                <li>Use a humidifier or steam inhalation to loosen chest congestion</li>
+                                <li>Stay well-hydrated to thin mucus secretions</li>
+                                <li>Prop up with extra pillows when sleeping to ease nighttime coughing</li>
+                                <li>Avoid irritants like smoke, strong perfumes, and cold air</li>
+                                <li>Practice deep breathing exercises to clear the lungs</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-capsules"></i> Medication Guidance</h6>
+                            <div class="medication-card">
+                                <div class="medication-name">Guaifenesin</div>
+                                <div class="medication-details">Dosage: As directed on product label. Expectorant that helps thin and loosen mucus in the airways.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Dextromethorphan</div>
+                                <div class="medication-details">Dosage: As directed on product label. Cough suppressant for dry, non-productive coughs.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Saline Nasal Spray</div>
+                                <div class="medication-details">Use as needed to moisturize nasal passages and reduce post-nasal drip.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-note">
+                            <i class="fas fa-exclamation-triangle"></i> Seek medical attention if you experience difficulty breathing, chest pain, coughing up blood, fever over 101°F (38.3°C), or if symptoms last more than 7 days.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Stomach pain and nausea
+            else if ((symptomsLower.includes('stomach') || symptomsLower.includes('abdominal')) && 
+                    (symptomsLower.includes('nausea') || symptomsLower.includes('vomit'))) {
+                return `
+                    <div class="health-assessment">
+                        <div class="health-section">
+                            <h6><i class="fas fa-diagnoses"></i> Possible Health Issues</h6>
+                            <ul>
+                                <li>Gastroenteritis (stomach flu)</li>
+                                <li>Food poisoning or indigestion</li>
+                                <li>Acid reflux or gastritis</li>
+                                <li>Gallbladder issues (if pain is in upper right abdomen)</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-tasks"></i> Recommended Actions</h6>
+                            <ul>
+                                <li>Follow the BRAT diet (Bananas, Rice, Applesauce, Toast) for 24-48 hours</li>
+                                <li>Sip clear fluids frequently to prevent dehydration</li>
+                                <li>Avoid dairy, fatty foods, caffeine, and alcohol until symptoms improve</li>
+                                <li>Use a heating pad on low setting for abdominal cramping</li>
+                                <li>Rest and avoid strenuous activity</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-capsules"></i> Medication Guidance</h6>
+                            <div class="medication-card">
+                                <div class="medication-name">Pepto-Bismol (Bismuth Subsalicylate)</div>
+                                <div class="medication-details">Dosage: As directed on product label. Helps relieve nausea, indigestion, and diarrhea.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Antacids (Tums, Rolaids)</div>
+                                <div class="medication-details">Dosage: As directed on product label. Neutralizes stomach acid for quick relief.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Loperamide (Imodium)</div>
+                                <div class="medication-details">Dosage: As directed for diarrhea. Avoid if you suspect bacterial infection.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-note">
+                            <i class="fas fa-exclamation-triangle"></i> Seek immediate medical care if you experience severe abdominal pain, vomiting blood, signs of dehydration (dark urine, dizziness), symptoms lasting more than 48 hours, or if pain localizes to the lower right abdomen (possible appendicitis).
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Fatigue and body aches
+            else if (symptomsLower.includes('fatigue') && symptomsLower.includes('body ache')) {
+                return `
+                    <div class="health-assessment">
+                        <div class="health-section">
+                            <h6><i class="fas fa-diagnoses"></i> Possible Health Issues</h6>
+                            <ul>
+                                <li>Viral infection (influenza, COVID-19, or other viruses)</li>
+                                <li>Chronic fatigue syndrome or fibromyalgia</li>
+                                <li>Vitamin deficiency (especially Vitamin D or B12)</li>
+                                <li>Autoimmune conditions or thyroid disorders</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-tasks"></i> Recommended Actions</h6>
+                            <ul>
+                                <li>Ensure adequate rest and prioritize sleep (7-9 hours per night)</li>
+                                <li>Stay hydrated with water and electrolyte solutions</li>
+                                <li>Practice gentle stretching or yoga to relieve muscle aches</li>
+                                <li>Consider a warm Epsom salt bath to soothe muscles</li>
+                                <li>Evaluate your diet for nutritional adequacy</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-capsules"></i> Medication Guidance</h6>
+                            <div class="medication-card">
+                                <div class="medication-name">NSAIDs (Ibuprofen, Naproxen)</div>
+                                <div class="medication-details">Dosage: As directed on product label. Red inflammation and relieves muscle aches.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Acetaminophen (Paracetamol)</div>
+                                <div class="medication-details">Dosage: 500-1000mg every 4-6 hours as needed. Pain reliever that's gentler on the stomach.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Magnesium Supplement</div>
+                                <div class="medication-details">Dosage: 200-400mg daily. May help with muscle aches and fatigue (consult doctor first).</div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-note">
+                            <i class="fas fa-exclamation-triangle"></i> Consult a healthcare provider if fatigue and body aches persist for more than 2 weeks, are severe, accompanied by unexplained weight loss, fever, or other concerning symptoms.
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Default response for other symptoms
+            else {
+                return `
+                    <div class="health-assessment">
+                        <div class="health-section">
+                            <h6><i class="fas fa-diagnoses"></i> Health Assessment</h6>
+                            <p>Based on your description of symptoms, I recommend monitoring your condition and following general self-care practices.</p>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-tasks"></i> General Recommendations</h6>
+                            <ul>
+                                <li>Get adequate rest and maintain hydration</li>
+                                <li>Monitor your symptoms for any changes or worsening</li>
+                                <li>Practice good hygiene to prevent spreading potential infections</li>
+                                <li>Consider over-the-counter pain relievers if needed</li>
+                                <li>Eat nourishing foods that are easy to digest</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="health-section">
+                            <h6><i class="fas fa-capsules"></i> Medication Guidance</h6>
+                            <p>For general discomfort, you might consider:</p>
+                            <div class="medication-card">
+                                <div class="medication-name">Acetaminophen (Paracetamol)</div>
+                                <div class="medication-details">Dosage: 500-1000mg every 4-6 hours as needed for pain or fever. Maximum 4000mg per day.</div>
+                            </div>
+                            <div class="medication-card">
+                                <div class="medication-name">Ibuprofen</div>
+                                <div class="medication-details">Dosage: 200-400mg every 6-8 hours with food. Reduces inflammation, fever, and pain.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-note">
+                            <i class="fas fa-exclamation-triangle"></i> Please consult a healthcare professional for persistent, severe, or worsening symptoms, or if you have specific concerns about your health condition.
+                        </div>
+                    </div>
+                `;
+            }
+        }
+        
+        // Save user info
+        document.getElementById('save-user-info').addEventListener('click', function() {
+            const userName = document.getElementById('user-name').value.trim();
+            
+            if (!userName) {
+                alert('Please enter your name');
+                return;
+            }
+            
+            localStorage.setItem('userName', userName);
+            
+            const userInfoModal = bootstrap.Modal.getInstance(document.getElementById('userInfoModal'));
+            userInfoModal.hide();
+            
+            // Update welcome message with user's name
+            const welcomeMessage = document.querySelector('.bot-message .bubble-text');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello ${userName}! I'm AfyaSmart, your advanced health assistant. Tell me how you're feeling, and I'll provide a health assessment, recommendations, and medication information.`;
+            }
+        });
+        
+        // Validate if message is health-related
+        function isHealthRelated(message) {
+            const healthKeywords = [
+                'pain', 'ache', 'fever', 'headache', 'cough', 'cold', 'flu', 'sore', 'nausea',
+                'dizzy', 'tired', 'fatigue', 'vomit', 'diarrhea', 'constipation', 'rash',
+                'itch', 'swell', 'redness', 'congestion', 'sneeze', 'wheeze', 'breath',
+                'chest', 'heart', 'stomach', 'abdominal', 'back', 'joint', 'muscle',
+                'sleep', 'anxiety', 'stress', 'depress', 'blood', 'pressure', 'cholesterol',
+                'allergy', 'asthma', 'diabetes', 'infection', 'virus', 'bacteria', 'covid'
+            ];
+            
+            const messageLower = message.toLowerCase();
+            return healthKeywords.some(keyword => messageLower.includes(keyword));
+        }
+
+        // Handle chat form submission
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const userMessage = userInput.value.trim();
+            if (!userMessage) return;
+            
+            const userName = localStorage.getItem('userName') || 'User';
+            
+            appendMessage(userMessage, 'user', userName);
+            userInput.value = '';
+            
+            // Show a loading message with animation
+            const loadingBubble = document.createElement('div');
+            loadingBubble.classList.add('message-bubble', 'bot-message', 'loading-indicator');
+            loadingBubble.innerHTML = `
+                <div class="message-header"><i class="fas fa-robot"></i> AfyaSmart</div>
+                <div class="typing-animation">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            chatHistory.appendChild(loadingBubble);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+            
+            // Check if message is health-related
+            if (!isHealthRelated(userMessage)) {
+                // Remove loading indicator after a short delay to simulate processing
+                setTimeout(() => {
+                    chatHistory.removeChild(loadingBubble);
+                    appendMessage("I'm sorry, but I can only respond to health-related questions. Please describe any symptoms or health concerns you're experiencing.", 'bot');
+                }, 1500);
+                return;
+            }
+            
+            // Simulate API call with timeout
+            setTimeout(() => {
+                // Remove loading indicator
+                chatHistory.removeChild(loadingBubble);
+                
+                // Generate health assessment
+                const assessment = generateHealthAssessment(userMessage);
+                
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-bubble', 'bot-message');
+                bubble.innerHTML = `
+                    <div class="message-header"><i class="fas fa-robot"></i> AfyaSmart</div>
+                    ${assessment}
+                    <div class="message-footer">${getCurrentTime()}</div>
+                `;
+                chatHistory.appendChild(bubble);
+                chatHistory.scrollTop = chatHistory.scrollHeight;
+                
+            }, 2500);
+        });
+    
+        // Handle suggestion button clicks
+        suggestionsContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('btn-suggestion')) {
+                const suggestion = e.target.textContent;
+                userInput.value = suggestion;
+                
+                // Auto-submit if user is registered
+                if (localStorage.getItem('userName')) {
+                    chatForm.dispatchEvent(new Event('submit'));
+                } else {
+                    userInput.focus();
+                    const userInfoModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+                    userInfoModal.show();
+                }
+            }
+        });
+        
+        // Clear chat button
+        document.getElementById('confirm-clear-button').addEventListener('click', function() {
+            // Keep only the first message (welcome message)
+            while (chatHistory.children.length > 1) { 
+                chatHistory.removeChild(chatHistory.lastChild);
+            }
+            // Close the modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('confirmClearModal'));
+            modal.hide();
+        });
+        
+        // User profile button
+        document.getElementById('user-profile-btn').addEventListener('click', function() {
+            const userInfoModal = new bootstrap.Modal(document.getElementById('userInfoModal'));
+            const userNameInput = document.getElementById('user-name');
+            
+            // Prefill with existing name if available
+            const savedUserName = localStorage.getItem('userName');
+            if (savedUserName) {
+                userNameInput.value = savedUserName;
+            }
+            
+            userInfoModal.show();
+        });
+        
+        // Check if user info exists in localStorage
+        if (savedUserName) {
+            // Update welcome message with user's name
+            const welcomeMessage = document.querySelector('.bot-message .bubble-text');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello ${savedUserName}! I'm AfyaSmart, your advanced health assistant. Tell me how you're feeling, and I'll provide a health assessment, recommendations, and medication information.`;
+            }
+        }
+    });
+    </script>
+</body>
+</html>
